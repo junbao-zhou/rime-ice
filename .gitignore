@@ -7,7 +7,8 @@ sync/
 *.userdb/
 installation.yaml
 user.yaml
-*.custom.yaml
+default.custom.yaml
+weasel.custom.yaml
 !others/**/*.custom.yaml
 
 custom_phrase_double.txt
