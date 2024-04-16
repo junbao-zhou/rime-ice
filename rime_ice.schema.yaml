@@ -36,6 +36,9 @@ switches:
   - name: search_single_char  # search.lua 的功能开关，辅码查词时是否单字优先
     abbrev: [词, 单]
     states: [正常, 单字]
+  - name: prediction
+    states: [ 无預測, 預測 ]
+    reset: 1
 
 
 # 输入引擎
@@ -44,6 +47,7 @@ engine:
     - lua_processor@select_character          # 以词定字
     - ascii_composer
     - recognizer
+    - predictor
     - key_binder
     - speller
     - punctuator
@@ -58,6 +62,7 @@ engine:
     - punct_segmentor
     - fallback_segmentor
   translators:
+    - predict_translator
     - punct_translator
     - script_translator
     - lua_translator@date_translator    # 时间、日期、星期
@@ -398,6 +403,19 @@ key_binder:
   import_preset: default  # 从 default.yaml 继承通用的
   search: "`"             # 辅码引导符，要添加到 speller/alphabet
   # bindings:             # 也可以再增加方案专有的快捷键
+
+
+predictor:
+  # predict db file in user directory/shared directory
+  # default to 'predict.db'
+  db: predict.db
+  # max prediction candidates every time
+  # default to 0, which means showing all candidates
+  # you may set it the same with page_size so that period doesn't trigger next page
+  max_candidates: 8
+  # max continuous prediction times
+  # default to 0, which means no limitation
+  max_iterations: 1
 
 
 # 拼写设定
